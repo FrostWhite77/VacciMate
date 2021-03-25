@@ -9,6 +9,7 @@
 
     <string name="nationalId">National ID</string>
     <string name="username">Username</string>
+    <string name="bdate">Birth date</string>
 
     <string name="register">Register</string>
 </resources>
