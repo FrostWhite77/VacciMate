@@ -1,5 +1,14 @@
 <resources>
     <string name="app_name">VacciMate</string>
     <string name="action_settings">Settings</string>
-    <!-- Strings used for fragments for navigation -->
+
+    <!-- comment -->
+
+    <string name="home">Home</string>
+    <string name="registration">Registration</string>
+
+    <string name="nationalId">National ID</string>
+    <string name="username">Username</string>
+
+    <string name="register">Register</string>
 </resources>

@@ -1,5 +1,6 @@
 package com.katcdavi.vaccimate;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -19,5 +20,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Toolbar tb = (Toolbar) findViewById(R.id.main_topToolbar);
+        tb.setTitle(getResources().getString(R.string.app_name) + " - " + getResources().getString(R.string.home));
+    }
+
+    public void btnRegisterOnClick(View v) {
+        Intent myIntent = new Intent(getBaseContext(), RegisterActivity.class);
+        startActivity(myIntent);
     }
 }
