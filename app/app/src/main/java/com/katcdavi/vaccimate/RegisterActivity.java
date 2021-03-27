@@ -1,11 +1,14 @@
 package com.katcdavi.vaccimate;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -19,7 +22,20 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     public void btnRegisterOnClick(View v) {
+        TextView tv_nationalId = (TextView) findViewById(R.id.reg_in_nationalId);
+        String nationalId = tv_nationalId.getText().toString();
+
+        TextView tv_username = (TextView) findViewById(R.id.reg_in_username);
+        String username = tv_username.getText().toString();
+
+        TextView tv_date = (TextView) findViewById(R.id.reg_in_bdate);
+        String bdate = tv_date.getText().toString();
+
         Intent myIntent = new Intent(getBaseContext(), MainActivity.class);
+        myIntent.putExtra("NATIONAL_ID", nationalId);
+        myIntent.putExtra("USERNAME", username);
+        myIntent.putExtra("BDATE_STR", bdate);
+
         startActivity(myIntent);
         finish();
     }

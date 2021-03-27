@@ -12,4 +12,5 @@
     <string name="bdate">Birth date</string>
 
     <string name="register">Register</string>
+    <string name="loggedInAs">Logged in as:</string>
 </resources>
