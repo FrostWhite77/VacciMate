@@ -3,25 +3,13 @@ package com.katcdavi.vaccimate;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.katcdavi.vaccimate.modules.UserDataModule;
 import com.katcdavi.vaccimate.user.User;
-import com.katcdavi.vaccimate.user.UserDao;
-import com.katcdavi.vaccimate.user.UserDatabase;
 import com.katcdavi.vaccimate.user.UserRepository;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.LiveData;
-import androidx.room.Room;
 
-import android.service.autofill.UserData;
-import android.view.View;
-
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.Button;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;

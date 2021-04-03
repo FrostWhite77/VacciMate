@@ -1,10 +1,8 @@
 package com.katcdavi.vaccimate.user;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.AsyncTask;
 
-import androidx.lifecycle.LiveData;
 import androidx.room.Room;
 
 import java.util.Date;

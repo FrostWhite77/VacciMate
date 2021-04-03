@@ -1,6 +1,5 @@
 package com.katcdavi.vaccimate.modules;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
