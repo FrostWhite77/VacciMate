@@ -10,10 +10,10 @@ public class UserDataModule
     private String username;
     private Date bdate;
 
-    public UserDataModule(String nationalId, String username, String dateStr) throws ParseException {
+    public UserDataModule(String nationalId, String username, Date date) {
         this.nationalId = nationalId;
         this.username = username;
-        this.bdate = new SimpleDateFormat("dd.MM.yyyy").parse(dateStr);
+        this.bdate = date;
     }
 
     public String getNationalId() {

@@ -24,6 +24,8 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -67,7 +69,8 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
 
-            this.userData = new UserDataModule(nationalId, username, bdateStr);
+            Date date = new SimpleDateFormat("dd.MM.yyyy").parse(bdateStr);
+            this.userData = new UserDataModule(nationalId, username, date);
             insertNewUser();
 
             return true;
@@ -84,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
 
             if (users.size() > 0) {
                 User user = users.get(0);
-                this.userData = new UserDataModule(user.getNationalId(), user.getUsername(), "12.05.1999");
+                this.userData = new UserDataModule(user.getNationalId(), user.getUsername(), user.getBirthDate());
                 return true;
             }
 
@@ -111,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
     private void insertNewUser() {
         try {
             UserRepository ur = new UserRepository(getApplicationContext());
-            ur.insertUser(this.userData.getNationalId(), this.userData.getUsername());
+            ur.insertUser(this.userData.getNationalId(), this.userData.getUsername(), this.userData.getBdate());
         } catch (Exception e) {
             System.out.println("Interrupt exception");
         }

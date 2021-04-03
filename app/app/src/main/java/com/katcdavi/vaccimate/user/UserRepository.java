@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import androidx.lifecycle.LiveData;
 import androidx.room.Room;
 
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -17,13 +18,14 @@ public class UserRepository {
     private UserDatabase userDatabase;
 
     public UserRepository(Context context) {
-        userDatabase = Room.databaseBuilder(context, UserDatabase.class, DB_NAME).allowMainThreadQueries().build();
+        userDatabase = Room.databaseBuilder(context, UserDatabase.class, DB_NAME).allowMainThreadQueries().fallbackToDestructiveMigration().build();
     }
 
-    public void insertUser(String nationalId, String username) throws ExecutionException, InterruptedException {
+    public void insertUser(String nationalId, String username, Date birthDate) throws ExecutionException, InterruptedException {
         User user = new User();
         user.setNationalId(nationalId);
         user.setUsername(username);
+        user.setBirthDate(birthDate);
 
         new AsyncTask<Void, Void, Void>() {
             @Override
@@ -31,7 +33,7 @@ public class UserRepository {
                 userDatabase.userAccess().insertUser(user);
                 return null;
             }
-        }.execute().get();
+        }.execute();
     }
 
     public void updateUser(final User user) {
