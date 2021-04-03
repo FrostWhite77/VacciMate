@@ -19,11 +19,12 @@ public class UserRepository {
         userDatabase = Room.databaseBuilder(context, UserDatabase.class, DB_NAME).allowMainThreadQueries().fallbackToDestructiveMigration().build();
     }
 
-    public void insertUser(String nationalId, String username, Date birthDate) throws ExecutionException, InterruptedException {
+    public void insertUser(String nationalId, String username, Date birthDate, String secret) throws ExecutionException, InterruptedException {
         User user = new User();
         user.setNationalId(nationalId);
         user.setUsername(username);
         user.setBirthDate(birthDate);
+        user.setSecret(secret);
 
         new AsyncTask<Void, Void, Void>() {
             @Override

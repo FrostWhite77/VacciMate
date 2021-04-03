@@ -16,6 +16,7 @@ public class User implements Serializable
     private String nationalId;
     private String username;
     private Date birthDate;
+    private String secret;
 
     public int getId() {
         return this.id;
@@ -47,5 +48,13 @@ public class User implements Serializable
 
     public void setBirthDate(Date birthDate) {
         this.birthDate = birthDate;
+    }
+
+    public String getSecret() {
+        return this.secret;
+    }
+
+    public void setSecret(String secret) {
+        this.secret = secret;
     }
 }

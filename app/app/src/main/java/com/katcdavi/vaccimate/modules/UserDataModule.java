@@ -8,11 +8,15 @@ public class UserDataModule
     private String nationalId;
     private String username;
     private Date bdate;
+    private boolean loggedIn;
+    private String secret;
 
-    public UserDataModule(String nationalId, String username, Date date) {
+    public UserDataModule(String nationalId, String username, Date date, String secret) {
         this.nationalId = nationalId;
         this.username = username;
         this.bdate = date;
+        this.loggedIn = false;
+        this.secret = secret;
     }
 
     public String getNationalId() {
@@ -33,5 +37,17 @@ public class UserDataModule
 
     public String compactString() {
         return this.username + " born on " + this.getBdateStr() + " (" + this.nationalId + ")";
+    }
+
+    public boolean isLoggedIn() {
+        return this.loggedIn;
+    }
+
+    public void logIn() {
+        this.loggedIn = true;
+    }
+
+    public String getSecret() {
+        return this.secret;
     }
 }

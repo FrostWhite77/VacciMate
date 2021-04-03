@@ -29,10 +29,14 @@ public class RegisterActivity extends AppCompatActivity {
         TextView tv_date = (TextView) findViewById(R.id.reg_in_bdate);
         String bdate = tv_date.getText().toString();
 
+        TextView tv_pin = (TextView) findViewById(R.id.reg_in_pin);
+        String pin = tv_pin.getText().toString();
+
         Intent myIntent = new Intent(getBaseContext(), MainActivity.class);
         myIntent.putExtra("NATIONAL_ID", nationalId);
         myIntent.putExtra("USERNAME", username);
         myIntent.putExtra("BDATE_STR", bdate);
+        myIntent.putExtra("PIN", pin);
 
         startActivity(myIntent);
         finish();
