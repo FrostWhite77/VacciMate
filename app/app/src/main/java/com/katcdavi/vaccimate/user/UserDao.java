@@ -16,13 +16,13 @@ public interface UserDao
     Long insertUser(User user);
 
     @Query("SELECT * FROM User")
-    LiveData<List<User>> fetchAllUsers();
+    List<User> fetchAllUsers();
 
     @Query("SELECT * FROM User WHERE id = :id")
-    LiveData<User> getUserById(int id);
+    User getUserById(int id);
 
     @Query("SELECT * FROM User WHERE nationalId = :nationalId")
-    LiveData<User> getUserByNationalId(String nationalId);
+    User getUserByNationalId(String nationalId);
 
     @Update
     void updateUser(User user);

@@ -8,6 +8,7 @@ import androidx.lifecycle.LiveData;
 import androidx.room.Room;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class UserRepository {
 
@@ -16,10 +17,10 @@ public class UserRepository {
     private UserDatabase userDatabase;
 
     public UserRepository(Context context) {
-        userDatabase = Room.databaseBuilder(context, UserDatabase.class, DB_NAME).build();
+        userDatabase = Room.databaseBuilder(context, UserDatabase.class, DB_NAME).allowMainThreadQueries().build();
     }
 
-    public void insertUser(String nationalId, String username) {
+    public void insertUser(String nationalId, String username) throws ExecutionException, InterruptedException {
         User user = new User();
         user.setNationalId(nationalId);
         user.setUsername(username);
@@ -30,7 +31,7 @@ public class UserRepository {
                 userDatabase.userAccess().insertUser(user);
                 return null;
             }
-        }.execute();
+        }.execute().get();
     }
 
     public void updateUser(final User user) {
@@ -43,20 +44,20 @@ public class UserRepository {
         }.execute();
     }
 
-    public void deleteTask(final int id) {
-        final LiveData<User> task = getTask(id);
-        if(task != null) {
+    public void deleteUser(final int id) {
+        final User user = this.getUser(id);
+        if(user != null) {
             new AsyncTask<Void, Void, Void>() {
                 @Override
                 protected Void doInBackground(Void... voids) {
-                    userDatabase.userAccess().deleteUser(task.getValue());
+                    userDatabase.userAccess().deleteUser(user);
                     return null;
                 }
             }.execute();
         }
     }
 
-    public void deleteTask(final User user) {
+    public void deleteUser(final User user) {
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... voids) {
@@ -66,11 +67,11 @@ public class UserRepository {
         }.execute();
     }
 
-    public LiveData<User> getTask(int id) {
+    public User getUser(int id) {
         return userDatabase.userAccess().getUserById(id);
     }
 
-    public LiveData<List<User>> getTasks() {
+    public List<User> getUsers() {
         return userDatabase.userAccess().fetchAllUsers();
     }
 }

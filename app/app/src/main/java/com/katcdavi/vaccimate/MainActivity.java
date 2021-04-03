@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean loggedIn() {
         try {
             UserRepository ur = new UserRepository(getApplicationContext());
-            List<User> users = ur.getTasks().getValue();
+            List<User> users = ur.getUsers();
 
             if (users.size() > 0) {
                 User user = users.get(0);
@@ -109,7 +109,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void insertNewUser() {
-        UserRepository ur = new UserRepository(getApplicationContext());
-        ur.insertUser(this.userData.getNationalId(), this.userData.getUsername());
+        try {
+            UserRepository ur = new UserRepository(getApplicationContext());
+            ur.insertUser(this.userData.getNationalId(), this.userData.getUsername());
+        } catch (Exception e) {
+            System.out.println("Interrupt exception");
+        }
     }
 }
