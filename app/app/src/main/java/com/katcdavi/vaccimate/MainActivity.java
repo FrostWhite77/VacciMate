@@ -13,6 +13,7 @@ import com.katcdavi.vaccimate.user.UserRepository;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.util.DisplayMetrics;
 import android.widget.TextView;
 
 import java.io.IOException;
@@ -177,9 +178,16 @@ public class MainActivity extends AppCompatActivity {
         TextView tv = (TextView) findViewById(R.id.main_errorLog);
         try {
             this.program = VaccinationProgramLoader.loadFromFile(getAssets().open("structure_test.json"));
-            String data = "Loaded Categories: " + this.program.getCategoriesSize() + " ; Loaded Events: " + this.program.getEventsSize();
 
+            // region: DEBUG - begin
+            String data = "Loaded Categories: " + this.program.getCategoriesSize() + " ; Loaded Events: " + this.program.getEventsSize();
+            DisplayMetrics displayMetrics = getApplicationContext().getResources().getDisplayMetrics();
+            float dpHeight = displayMetrics.heightPixels / displayMetrics.density;
+            float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
+            data += "\nmax width: " + dpWidth + "dp ; max height: " + dpHeight + "dp";
             tv.setText(data);
+            // region: DEBUG - end
+
         } catch (IOException e) {
             e.printStackTrace();
             tv.setText("ERROR in loadVaccinationProgram()");
