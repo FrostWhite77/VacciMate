@@ -32,8 +32,9 @@ public class VaccinationProgramLoader {
                 int reccAge = Integer.parseInt(jsonEvents.getJSONObject(i).getString("reccAge"));
                 String reccGender = jsonEvents.getJSONObject(i).getString("reccGender");
                 int categoryId = Integer.parseInt(jsonEvents.getJSONObject(i).getString("category"));
+                String note = jsonEvents.getJSONObject(i).getString("note");
 
-                program.addEvent(new VaccinationEvent(id, reccAge, Gender.fromString(reccGender), program.getCategoryById(categoryId)));
+                program.addEvent(new VaccinationEvent(id, reccAge, Gender.fromString(reccGender), program.getCategoryById(categoryId), note));
             }
 
             return program;
@@ -54,7 +55,7 @@ public class VaccinationProgramLoader {
             }
 
             String json = builder.toString();
-            json = json.replaceAll("\\s", "");
+            //json = json.replaceAll("\\s", "");
 
             return json;
         } catch (Exception e) {

@@ -1,6 +1,8 @@
 package com.katcdavi.vaccimate.modules.vaccinationProgram;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class VaccinationProgram {
@@ -33,5 +35,9 @@ public class VaccinationProgram {
 
     public int getEventsSize() {
         return this.events.size();
+    }
+
+    public List<VaccinationEvent> getEvents() {
+        return new ArrayList<>(this.events.values());
     }
 }

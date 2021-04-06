@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.katcdavi.vaccimate.modules.CryptoModule;
+import com.katcdavi.vaccimate.modules.EventsAdapter;
 import com.katcdavi.vaccimate.modules.UserDataModule;
 import com.katcdavi.vaccimate.modules.vaccinationProgram.VaccinationProgram;
 import com.katcdavi.vaccimate.modules.vaccinationProgram.VaccinationProgramLoader;
@@ -12,6 +13,8 @@ import com.katcdavi.vaccimate.user.UserRepository;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.DisplayMetrics;
 import android.widget.TextView;
@@ -180,13 +183,17 @@ public class MainActivity extends AppCompatActivity {
             this.program = VaccinationProgramLoader.loadFromFile(getAssets().open("structure_test.json"));
 
             // region: DEBUG - begin
-            String data = "Loaded Categories: " + this.program.getCategoriesSize() + " ; Loaded Events: " + this.program.getEventsSize();
+            String data = "===DEBUG===\nLoaded Categories: " + this.program.getCategoriesSize() + " ; Loaded Events: " + this.program.getEventsSize();
             DisplayMetrics displayMetrics = getApplicationContext().getResources().getDisplayMetrics();
             float dpHeight = displayMetrics.heightPixels / displayMetrics.density;
             float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
-            data += "\nmax width: " + dpWidth + "dp ; max height: " + dpHeight + "dp";
+            data += "\nmax width: " + dpWidth + "dp ; max height: " + dpHeight + "dp\n===DEBUG===";
             tv.setText(data);
             // region: DEBUG - end
+
+            RecyclerView eventsRView = (RecyclerView) findViewById(R.id.main_upcomingEvents);
+            eventsRView.setAdapter(new EventsAdapter(this.program.getEvents()));
+            eventsRView.setLayoutManager(new LinearLayoutManager(this));
 
         } catch (IOException e) {
             e.printStackTrace();

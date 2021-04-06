@@ -24,4 +24,6 @@
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">Login failed</string>
     <string name="pin">PIN</string>
+
+    <string name="upcomingEvents">Upcoming events</string>
 </resources>

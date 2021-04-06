@@ -7,12 +7,14 @@ public class VaccinationEvent {
     private int recommendedAge;
     private Gender recommendedGender;
     private DiseaseCategory category;
+    private String note;
 
-    public VaccinationEvent(int id, int recommendedAge, Gender recommendedGender, DiseaseCategory category) {
+    public VaccinationEvent(int id, int recommendedAge, Gender recommendedGender, DiseaseCategory category, String note) {
         this.id = id;
         this.recommendedAge = recommendedAge;
         this.recommendedGender = recommendedGender;
         this.category = category;
+        this.note = note;
     }
 
     public int getId() {
@@ -29,5 +31,9 @@ public class VaccinationEvent {
 
     public DiseaseCategory getCategory() {
         return this.category;
+    }
+
+    public String getNote() {
+        return this.note;
     }
 }
