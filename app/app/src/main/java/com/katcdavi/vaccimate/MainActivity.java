@@ -5,6 +5,8 @@ import android.os.Bundle;
 
 import com.katcdavi.vaccimate.modules.CryptoModule;
 import com.katcdavi.vaccimate.modules.UserDataModule;
+import com.katcdavi.vaccimate.modules.vaccinationProgram.VaccinationProgram;
+import com.katcdavi.vaccimate.modules.vaccinationProgram.VaccinationProgramLoader;
 import com.katcdavi.vaccimate.user.User;
 import com.katcdavi.vaccimate.user.UserRepository;
 
@@ -13,6 +15,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.widget.TextView;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -20,6 +23,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private UserDataModule userData;
+    private VaccinationProgram program;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,12 +33,18 @@ public class MainActivity extends AppCompatActivity {
         Toolbar tb = (Toolbar) findViewById(R.id.main_topToolbar);
         tb.setTitle(getResources().getString(R.string.app_name) + " - " + getResources().getString(R.string.home));
 
-        if (!isRegistered()) {
-            goToUserRegistration();
-        } else if (!isLoggedIn()) {
-            goToUserAuth();
-        } else {
-            showUserData();
+        try {
+            if (!isRegistered()) {
+                goToUserRegistration();
+            } else if (!isLoggedIn()) {
+                goToUserAuth();
+            } else {
+                showUserData();
+                loadVaccinationProgram();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            int dummy = 1;
         }
     }
 
@@ -160,6 +170,19 @@ public class MainActivity extends AppCompatActivity {
             ur.insertUser(this.userData.getNationalId(), this.userData.getUsername(), this.userData.getBdate(), this.userData.getSecret());
         } catch (Exception e) {
             System.out.println("Interrupt exception");
+        }
+    }
+
+    private void loadVaccinationProgram() {
+        TextView tv = (TextView) findViewById(R.id.main_errorLog);
+        try {
+            this.program = VaccinationProgramLoader.loadFromFile(getAssets().open("structure_test.json"));
+            String data = "Loaded Categories: " + this.program.getCategoriesSize() + " ; Loaded Events: " + this.program.getEventsSize();
+
+            tv.setText(data);
+        } catch (IOException e) {
+            e.printStackTrace();
+            tv.setText("ERROR in loadVaccinationProgram()");
         }
     }
 }

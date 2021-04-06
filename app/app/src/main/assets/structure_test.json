@@ -1,0 +1,26 @@
+{
+  "categories": [
+    {
+      "id": "1",
+      "name": "flu"
+    },
+    {
+      "id": "2",
+      "name": "meningococcus"
+    }
+  ],
+  "events": [
+    {
+      "id": "1",
+      "reccAge": "5",
+      "reccGender": "ALL",
+      "category": "1"
+    },
+    {
+      "id": "2",
+      "reccAge": "5",
+      "reccGender": "MALE",
+      "category": "1"
+    }
+  ]
+}

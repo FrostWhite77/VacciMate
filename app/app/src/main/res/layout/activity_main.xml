@@ -20,9 +20,11 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
+        android:id="@+id/linearLayout5"
         android:layout_width="368dp"
         android:layout_height="63dp"
         android:orientation="vertical"
+        android:layout_margin="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -92,4 +94,15 @@
                 android:textStyle="bold" />
         </LinearLayout>
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/main_errorLog"
+        android:layout_width="331dp"
+        android:layout_height="76dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout5"
+        app:layout_constraintVertical_bias="0.169" />
 </androidx.constraintlayout.widget.ConstraintLayout>
