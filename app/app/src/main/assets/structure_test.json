@@ -7,20 +7,33 @@
     {
       "id": "2",
       "name": "meningococcus"
+    },
+    {
+      "id": "3",
+      "name": "virus"
     }
   ],
   "events": [
     {
       "id": "1",
-      "reccAge": "5",
+      "reccAge": "1",
       "reccGender": "ALL",
-      "category": "1"
+      "category": "1",
+      "note": "basic"
     },
     {
       "id": "2",
-      "reccAge": "5",
-      "reccGender": "MALE",
-      "category": "1"
+      "reccAge": "1",
+      "reccGender": "ALL",
+      "category": "2",
+      "note": "basic"
+    },
+    {
+      "id": "3",
+      "reccAge": "20",
+      "reccGender": "FEMALE",
+      "category": "3",
+      "note": "HPV"
     }
   ]
 }
