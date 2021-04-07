@@ -22,7 +22,7 @@
     <LinearLayout
         android:id="@+id/linearLayout5"
         android:layout_width="320dp"
-        android:layout_height="63dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_margin="10dp"
         android:orientation="vertical"
@@ -94,6 +94,50 @@
 
             <TextView
                 android:id="@+id/main_userInfo_rowBdate_colVal"
+                android:layout_width="184dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/main_userInfo_rowCountry"
+            android:layout_width="match_parent"
+            android:layout_height="21dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/main_userInfo_rowCountry_colKey"
+                android:layout_width="184dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="@string/country" />
+
+            <TextView
+                android:id="@+id/main_userInfo_rowCountry_colVal"
+                android:layout_width="184dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/main_userInfo_rowGender"
+            android:layout_width="match_parent"
+            android:layout_height="21dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/main_userInfo_rowGender_colKey"
+                android:layout_width="184dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="@string/gender" />
+
+            <TextView
+                android:id="@+id/main_userInfo_rowGender_colVal"
                 android:layout_width="184dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"

@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import com.katcdavi.vaccimate.modules.CryptoModule;
 import com.katcdavi.vaccimate.adapters.EventsAdapter;
+import com.katcdavi.vaccimate.modules.Gender;
 import com.katcdavi.vaccimate.modules.UserDataModule;
 import com.katcdavi.vaccimate.modules.vaccinationProgram.VaccinationProgram;
 import com.katcdavi.vaccimate.modules.vaccinationProgram.VaccinationProgramLoader;
@@ -72,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
             String bdateStr = null;
             String pin = null;
             String country = null;
+            String gender = null;
 
             if (getIntent() != null) {
                 nationalId = getIntent().getStringExtra("NATIONAL_ID");
@@ -79,20 +81,23 @@ public class MainActivity extends AppCompatActivity {
                 bdateStr = getIntent().getStringExtra("BDATE_STR");
                 pin = getIntent().getStringExtra("PIN");
                 country = getIntent().getStringExtra("COUNTRY");
+                gender = getIntent().getStringExtra("GENDER");
             }
 
-            if (nationalId == null || nationalId.isEmpty() || username == null || username.isEmpty() || bdateStr == null || bdateStr.isEmpty() || country == null || country.isEmpty()) {
+            if (nationalId == null || nationalId.isEmpty() || username == null || username.isEmpty() || bdateStr == null || bdateStr.isEmpty() || country == null || country.isEmpty() || gender == null || gender.isEmpty()) {
                 return false;
             }
 
             Date date = new SimpleDateFormat("dd.MM.yyyy").parse(bdateStr);
             String secret = CryptoModule.pinToSecret(nationalId, username, date, pin);
+            Gender parsedGender = Gender.fromString(gender);
 
-            this.userData = new UserDataModule(nationalId, username, date, secret);
+
+            this.userData = new UserDataModule(nationalId, username, date, secret, parsedGender, country);
             this.userData.logIn();
             insertNewUser();
 
-            Toast.makeText(getApplicationContext(), "Country: " + country, Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Country: " + country + " ; Gender: " + gender, Toast.LENGTH_LONG).show();
             return true;
         } catch (Exception e) {
             this.userData = null;
@@ -111,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
 
             if (users.size() > 0) {
                 User user = users.get(0);
-                this.userData = new UserDataModule(user.getNationalId(), user.getUsername(), user.getBirthDate(), user.getSecret());
+                this.userData = new UserDataModule(user.getNationalId(), user.getUsername(), user.getBirthDate(), user.getSecret(), user.getGender(), user.getCountryId());
                 return true;
             }
 
@@ -145,6 +150,12 @@ public class MainActivity extends AppCompatActivity {
 
         tv = (TextView) findViewById(R.id.main_userInfo_rowBdate_colVal);
         tv.setText(this.userData.getBdateStr());
+
+        tv = (TextView) findViewById(R.id.main_userInfo_rowCountry_colVal);
+        tv.setText(this.userData.getCountryId());
+
+        tv = (TextView) findViewById(R.id.main_userInfo_rowGender_colVal);
+        tv.setText(this.userData.getGender().toString());
     }
 
     private boolean tryLogIn() {

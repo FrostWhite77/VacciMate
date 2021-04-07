@@ -10,6 +10,9 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.katcdavi.vaccimate.modules.Gender;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +21,9 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
 
     private List<String> countries;
     private String selectedCountry;
+
+    private List<Gender> genders;
+    private Gender selectedGender;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,11 +34,18 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
         tb.setTitle(getResources().getString(R.string.app_name) + " - " + getResources().getString(R.string.registration));
 
         this.countries = this.getSupportedCountries();
+        this.selectedCountry = this.countries.get(0);
+
         Spinner countriesSpinner = (Spinner) findViewById(R.id.reg_in_country);
         countriesSpinner.setOnItemSelectedListener(this);
-        ArrayAdapter adapter = new ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, countries);
-        countriesSpinner.setAdapter(adapter);
-        this.selectedCountry = this.countries.get(0);
+        countriesSpinner.setAdapter(new ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, this.countries));
+
+        this.genders = this.getGenders();
+        this.selectedGender = this.genders.get(0);
+
+        Spinner gendersSpinner = (Spinner) findViewById(R.id.reg_in_gender);
+        gendersSpinner.setOnItemSelectedListener(this);
+        gendersSpinner.setAdapter(new ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, this.genders));
     }
 
     public void btnRegisterOnClick(View v) {
@@ -54,6 +67,7 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
         myIntent.putExtra("BDATE_STR", bdate);
         myIntent.putExtra("PIN", pin);
         myIntent.putExtra("COUNTRY", this.selectedCountry);
+        myIntent.putExtra("GENDER", this.selectedGender.toString());
 
         startActivity(myIntent);
         finish();
@@ -67,9 +81,24 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
         return strings;
     }
 
+    private List<Gender> getGenders() {
+        List<Gender> genders = new ArrayList<>();
+        genders.add(Gender.male());
+        genders.add(Gender.female());
+        return genders;
+    }
+
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        this.selectedCountry = this.countries.get(position);
+        if (parent.getId() == R.id.reg_in_country) {
+            this.selectedCountry = this.countries.get(position);
+            Toast.makeText(getApplicationContext(), "Country: " + this.selectedCountry, Toast.LENGTH_LONG).show();
+        }
+
+        if (parent.getId() == R.id.reg_in_gender) {
+            this.selectedGender = this.genders.get(position);
+            Toast.makeText(getApplicationContext(), "Gender: " + this.selectedGender, Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override

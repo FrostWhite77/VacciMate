@@ -1,5 +1,8 @@
 package com.katcdavi.vaccimate.modules;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Gender {
     private GenderEnum gender;
 
