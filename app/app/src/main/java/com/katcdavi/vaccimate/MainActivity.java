@@ -4,12 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.katcdavi.vaccimate.modules.CryptoModule;
-import com.katcdavi.vaccimate.modules.EventsAdapter;
+import com.katcdavi.vaccimate.adapters.EventsAdapter;
 import com.katcdavi.vaccimate.modules.UserDataModule;
 import com.katcdavi.vaccimate.modules.vaccinationProgram.VaccinationProgram;
 import com.katcdavi.vaccimate.modules.vaccinationProgram.VaccinationProgramLoader;
-import com.katcdavi.vaccimate.user.User;
-import com.katcdavi.vaccimate.user.UserRepository;
+import com.katcdavi.vaccimate.userdb.User;
+import com.katcdavi.vaccimate.userdb.UserRepository;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.DisplayMetrics;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -70,15 +71,17 @@ public class MainActivity extends AppCompatActivity {
             String username = null;
             String bdateStr = null;
             String pin = null;
+            String country = null;
 
             if (getIntent() != null) {
                 nationalId = getIntent().getStringExtra("NATIONAL_ID");
                 username = getIntent().getStringExtra("USERNAME");
                 bdateStr = getIntent().getStringExtra("BDATE_STR");
                 pin = getIntent().getStringExtra("PIN");
+                country = getIntent().getStringExtra("COUNTRY");
             }
 
-            if (nationalId == null || nationalId.isEmpty() || username == null || username.isEmpty() || bdateStr == null || bdateStr.isEmpty()) {
+            if (nationalId == null || nationalId.isEmpty() || username == null || username.isEmpty() || bdateStr == null || bdateStr.isEmpty() || country == null || country.isEmpty()) {
                 return false;
             }
 
@@ -89,6 +92,7 @@ public class MainActivity extends AppCompatActivity {
             this.userData.logIn();
             insertNewUser();
 
+            Toast.makeText(getApplicationContext(), "Country: " + country, Toast.LENGTH_LONG).show();
             return true;
         } catch (Exception e) {
             this.userData = null;

@@ -1,148 +1,201 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RegisterActivity">
+    android:fillViewport="true">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/reg_topToolbar"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        tools:context=".RegisterActivity">
 
-    <LinearLayout
-        android:id="@+id/linearLayout2"
-        android:layout_width="320dp"
-        android:layout_height="76dp"
-        android:layout_marginTop="32dp"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/reg_topToolbar"
-        app:layout_constraintVertical_bias="0.0"
-        >
-
-        <TextView
-            android:id="@+id/textView_nationalId"
-            android:layout_width="match_parent"
-            android:layout_height="34dp"
-            android:text="@string/nationalId" />
-
-        <EditText
-            android:id="@+id/reg_in_nationalId"
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/reg_topToolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="text" />
-    </LinearLayout>
+            android:background="?attr/colorPrimary"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="?attr/actionBarTheme"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="320dp"
-        android:layout_height="76dp"
-        android:layout_marginTop="32dp"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="320dp"
+            android:layout_height="76dp"
+            android:layout_marginTop="32dp"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/reg_topToolbar"
+            app:layout_constraintVertical_bias="0.0"
+            >
+
+            <TextView
+                android:id="@+id/textView_nationalId"
+                android:layout_width="match_parent"
+                android:layout_height="34dp"
+                android:text="@string/nationalId" />
+
+            <EditText
+                android:id="@+id/reg_in_nationalId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="text" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="320dp"
+            android:layout_height="76dp"
+            android:layout_marginTop="32dp"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
+
+            <TextView
+                android:id="@+id/textView_username"
+                android:layout_width="match_parent"
+                android:layout_height="34dp"
+                android:text="@string/username" />
+
+            <EditText
+                android:id="@+id/reg_in_username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="text" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout3"
+            android:layout_width="320dp"
+            android:layout_height="76dp"
+            android:layout_marginTop="32dp"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+            app:layout_constraintVertical_bias="0.0">
+
+            <TextView
+                android:id="@+id/textView_bdate"
+                android:layout_width="match_parent"
+                android:layout_height="34dp"
+                android:text="@string/bdate" />
+
+            <EditText
+                android:id="@+id/reg_in_bdate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="date" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout4"
+            android:layout_width="320dp"
+            android:layout_height="76dp"
+            android:layout_marginTop="32dp"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
+
+            <TextView
+                android:id="@+id/textView_pin"
+                android:layout_width="match_parent"
+                android:layout_height="34dp"
+                android:text="@string/pin" />
+
+            <EditText
+                android:id="@+id/reg_in_pin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="numberPassword"
+                android:maxLength="4" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout5"
+            android:layout_width="320dp"
+            android:layout_height="76dp"
+            android:layout_marginTop="32dp"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout4">
+
+            <TextView
+                android:id="@+id/textView_country"
+                android:layout_width="match_parent"
+                android:layout_height="34dp"
+                android:text="@string/country" />
+
+            <Spinner
+                android:id="@+id/reg_in_country"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout6"
+            android:layout_width="320dp"
+            android:layout_height="76dp"
+            android:layout_marginTop="32dp"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout5">
 
         <TextView
-            android:id="@+id/textView_username"
+            android:id="@+id/textView_gender"
             android:layout_width="match_parent"
             android:layout_height="34dp"
-            android:text="@string/username" />
+            android:text="@string/gender" />
 
-        <EditText
-            android:id="@+id/reg_in_username"
+        <Spinner
+            android:id="@+id/reg_in_gender"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="text" />
-    </LinearLayout>
+            android:ems="10" />
+        </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/linearLayout3"
-        android:layout_width="320dp"
-        android:layout_height="76dp"
-        android:layout_marginTop="32dp"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-        app:layout_constraintVertical_bias="0.0">
+        <LinearLayout
+            android:layout_width="320dp"
+            android:layout_height="76dp"
+            android:layout_marginTop="32dp"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout6"
+            app:layout_constraintVertical_bias="0.017">
 
-        <TextView
-            android:id="@+id/textView_bdate"
-            android:layout_width="match_parent"
-            android:layout_height="34dp"
-            android:text="@string/bdate" />
+            <Button
+                android:id="@+id/btnRegister"
+                android:layout_width="match_parent"
+                android:layout_height="61dp"
+                android:onClick="btnRegisterOnClick"
+                android:text="@string/register" />
+        </LinearLayout>
 
-        <EditText
-            android:id="@+id/reg_in_bdate"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="date" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linearLayout4"
-        android:layout_width="320dp"
-        android:layout_height="76dp"
-        android:layout_marginTop="32dp"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
-
-        <TextView
-            android:id="@+id/textView_pin"
-            android:layout_width="match_parent"
-            android:layout_height="34dp"
-            android:text="@string/pin" />
-
-        <EditText
-            android:id="@+id/reg_in_pin"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="numberPassword"
-            android:maxLength="4" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="320dp"
-        android:layout_height="76dp"
-        android:layout_marginTop="32dp"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout4"
-        app:layout_constraintVertical_bias="0.017">
-
-        <Button
-            android:id="@+id/btnRegister"
-            android:layout_width="match_parent"
-            android:layout_height="61dp"
-            android:onClick="btnRegisterOnClick"
-            android:text="@string/register" />
-    </LinearLayout>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

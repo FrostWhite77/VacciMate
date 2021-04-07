@@ -1,0 +1,14 @@
+{
+  "countries": [
+    {
+      "id": "cz",
+      "title": "Czech Republic",
+      "file": "cz.json"
+    },
+    {
+      "id": "test",
+      "title": "Test Country",
+      "file": "structure_test.json"
+    }
+  ]
+}

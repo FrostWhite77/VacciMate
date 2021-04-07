@@ -1,4 +1,4 @@
-package com.katcdavi.vaccimate.user;
+package com.katcdavi.vaccimate.userdb;
 
 import androidx.room.Dao;
 import androidx.room.Delete;

@@ -1,4 +1,4 @@
-package com.katcdavi.vaccimate.modules;
+package com.katcdavi.vaccimate.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;

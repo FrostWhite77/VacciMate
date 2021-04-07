@@ -1,7 +1,9 @@
-package com.katcdavi.vaccimate.user;
+package com.katcdavi.vaccimate.userdb;
 
 import androidx.room.Database;
 import androidx.room.RoomDatabase;
+
+import com.katcdavi.vaccimate.vaccinedb.EventDao;
 
 @Database(entities = {User.class}, version = 2, exportSchema = false)
 public abstract class UserDatabase extends RoomDatabase {

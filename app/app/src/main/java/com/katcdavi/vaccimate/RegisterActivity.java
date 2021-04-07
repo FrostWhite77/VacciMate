@@ -6,9 +6,18 @@ import androidx.appcompat.widget.Toolbar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 
-public class RegisterActivity extends AppCompatActivity {
+import java.util.ArrayList;
+import java.util.List;
+
+public class RegisterActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+
+    private List<String> countries;
+    private String selectedCountry;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,6 +26,13 @@ public class RegisterActivity extends AppCompatActivity {
 
         Toolbar tb = (Toolbar) findViewById(R.id.reg_topToolbar);
         tb.setTitle(getResources().getString(R.string.app_name) + " - " + getResources().getString(R.string.registration));
+
+        this.countries = this.getSupportedCountries();
+        Spinner countriesSpinner = (Spinner) findViewById(R.id.reg_in_country);
+        countriesSpinner.setOnItemSelectedListener(this);
+        ArrayAdapter adapter = new ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, countries);
+        countriesSpinner.setAdapter(adapter);
+        this.selectedCountry = this.countries.get(0);
     }
 
     public void btnRegisterOnClick(View v) {
@@ -37,8 +53,27 @@ public class RegisterActivity extends AppCompatActivity {
         myIntent.putExtra("USERNAME", username);
         myIntent.putExtra("BDATE_STR", bdate);
         myIntent.putExtra("PIN", pin);
+        myIntent.putExtra("COUNTRY", this.selectedCountry);
 
         startActivity(myIntent);
         finish();
+    }
+
+    private List<String> getSupportedCountries() {
+        List<String> strings = new ArrayList<>();
+        strings.add("Czech Republic");
+        strings.add("Test");
+        strings.add("UK");
+        return strings;
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        this.selectedCountry = this.countries.get(position);
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
     }
 }
