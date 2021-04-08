@@ -54,10 +54,7 @@ public class VaccinationProgramLoader {
                 builder.append(line);
             }
 
-            String json = builder.toString();
-            //json = json.replaceAll("\\s", "");
-
-            return json;
+            return builder.toString();
         } catch (Exception e) {
             return e.getMessage();
         }

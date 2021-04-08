@@ -11,16 +11,16 @@ public class UserDataModule
     private boolean loggedIn;
     private String secret;
     private Gender gender;
-    private String countryId;
+    private Country country;
 
-    public UserDataModule(String nationalId, String username, Date date, String secret, Gender gender, String countryId) {
+    public UserDataModule(String nationalId, String username, Date date, String secret, Gender gender, Country country) {
         this.nationalId = nationalId;
         this.username = username;
         this.bdate = date;
         this.loggedIn = false;
         this.secret = secret;
         this.gender = gender;
-        this.countryId = countryId;
+        this.country = country;
     }
 
     public String getNationalId() {
@@ -59,7 +59,7 @@ public class UserDataModule
         return this.gender;
     }
 
-    public String getCountryId() {
-        return this.countryId;
+    public Country getCountry() {
+        return this.country;
     }
 }

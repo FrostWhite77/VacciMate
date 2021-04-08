@@ -12,6 +12,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.katcdavi.vaccimate.modules.Country;
+import com.katcdavi.vaccimate.modules.CountryDataModule;
 import com.katcdavi.vaccimate.modules.Gender;
 
 import java.util.ArrayList;
@@ -19,8 +21,8 @@ import java.util.List;
 
 public class RegisterActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
-    private List<String> countries;
-    private String selectedCountry;
+    private List<Country> countries;
+    private Country selectedCountry;
 
     private List<Gender> genders;
     private Gender selectedGender;
@@ -66,19 +68,15 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
         myIntent.putExtra("USERNAME", username);
         myIntent.putExtra("BDATE_STR", bdate);
         myIntent.putExtra("PIN", pin);
-        myIntent.putExtra("COUNTRY", this.selectedCountry);
+        myIntent.putExtra("COUNTRY", this.selectedCountry.getId());
         myIntent.putExtra("GENDER", this.selectedGender.toString());
 
         startActivity(myIntent);
         finish();
     }
 
-    private List<String> getSupportedCountries() {
-        List<String> strings = new ArrayList<>();
-        strings.add("Czech Republic");
-        strings.add("Test");
-        strings.add("UK");
-        return strings;
+    private List<Country> getSupportedCountries() {
+        return CountryDataModule.getInstance().getCountries();
     }
 
     private List<Gender> getGenders() {
@@ -92,12 +90,10 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         if (parent.getId() == R.id.reg_in_country) {
             this.selectedCountry = this.countries.get(position);
-            Toast.makeText(getApplicationContext(), "Country: " + this.selectedCountry, Toast.LENGTH_LONG).show();
         }
 
         if (parent.getId() == R.id.reg_in_gender) {
             this.selectedGender = this.genders.get(position);
-            Toast.makeText(getApplicationContext(), "Gender: " + this.selectedGender, Toast.LENGTH_LONG).show();
         }
     }
 

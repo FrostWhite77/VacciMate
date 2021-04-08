@@ -1,8 +1,11 @@
 package com.katcdavi.vaccimate;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.katcdavi.vaccimate.modules.Country;
+import com.katcdavi.vaccimate.modules.CountryDataModule;
 import com.katcdavi.vaccimate.modules.CryptoModule;
 import com.katcdavi.vaccimate.adapters.EventsAdapter;
 import com.katcdavi.vaccimate.modules.Gender;
@@ -28,6 +31,12 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static Context appContext;
+
+    public static Context getContext() {
+        return MainActivity.appContext;
+    }
+
     private UserDataModule userData;
     private VaccinationProgram program;
 
@@ -35,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        MainActivity.appContext = getApplicationContext();
 
         Toolbar tb = (Toolbar) findViewById(R.id.main_topToolbar);
         tb.setTitle(getResources().getString(R.string.app_name) + " - " + getResources().getString(R.string.home));
@@ -72,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
             String username = null;
             String bdateStr = null;
             String pin = null;
-            String country = null;
+            String countryId = null;
             String gender = null;
 
             if (getIntent() != null) {
@@ -80,24 +91,22 @@ public class MainActivity extends AppCompatActivity {
                 username = getIntent().getStringExtra("USERNAME");
                 bdateStr = getIntent().getStringExtra("BDATE_STR");
                 pin = getIntent().getStringExtra("PIN");
-                country = getIntent().getStringExtra("COUNTRY");
+                countryId = getIntent().getStringExtra("COUNTRY");
                 gender = getIntent().getStringExtra("GENDER");
             }
 
-            if (nationalId == null || nationalId.isEmpty() || username == null || username.isEmpty() || bdateStr == null || bdateStr.isEmpty() || country == null || country.isEmpty() || gender == null || gender.isEmpty()) {
+            if (nationalId == null || nationalId.isEmpty() || username == null || username.isEmpty() || bdateStr == null || bdateStr.isEmpty() || countryId == null || countryId.isEmpty() || gender == null || gender.isEmpty()) {
                 return false;
             }
 
             Date date = new SimpleDateFormat("dd.MM.yyyy").parse(bdateStr);
             String secret = CryptoModule.pinToSecret(nationalId, username, date, pin);
             Gender parsedGender = Gender.fromString(gender);
-
+            Country country = CountryDataModule.getInstance().getCountryById(countryId);
 
             this.userData = new UserDataModule(nationalId, username, date, secret, parsedGender, country);
             this.userData.logIn();
             insertNewUser();
-
-            Toast.makeText(getApplicationContext(), "Country: " + country + " ; Gender: " + gender, Toast.LENGTH_LONG).show();
             return true;
         } catch (Exception e) {
             this.userData = null;
@@ -116,7 +125,8 @@ public class MainActivity extends AppCompatActivity {
 
             if (users.size() > 0) {
                 User user = users.get(0);
-                this.userData = new UserDataModule(user.getNationalId(), user.getUsername(), user.getBirthDate(), user.getSecret(), user.getGender(), user.getCountryId());
+                Country country = CountryDataModule.getInstance().getCountryById(user.getCountryId());
+                this.userData = new UserDataModule(user.getNationalId(), user.getUsername(), user.getBirthDate(), user.getSecret(), user.getGender(), country);
                 return true;
             }
 
@@ -152,7 +162,7 @@ public class MainActivity extends AppCompatActivity {
         tv.setText(this.userData.getBdateStr());
 
         tv = (TextView) findViewById(R.id.main_userInfo_rowCountry_colVal);
-        tv.setText(this.userData.getCountryId());
+        tv.setText(this.userData.getCountry().getName());
 
         tv = (TextView) findViewById(R.id.main_userInfo_rowGender_colVal);
         tv.setText(this.userData.getGender().toString());
