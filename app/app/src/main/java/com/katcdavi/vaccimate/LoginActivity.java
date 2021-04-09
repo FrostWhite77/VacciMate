@@ -31,6 +31,5 @@ public class LoginActivity extends AppCompatActivity {
         myIntent.putExtra("PIN", pin);
 
         startActivity(myIntent);
-        finish();
     }
 }

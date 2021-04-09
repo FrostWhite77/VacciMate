@@ -72,7 +72,6 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
         myIntent.putExtra("GENDER", this.selectedGender.toString());
 
         startActivity(myIntent);
-        finish();
     }
 
     private List<Country> getSupportedCountries() {

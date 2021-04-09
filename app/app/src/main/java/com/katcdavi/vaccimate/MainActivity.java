@@ -8,8 +8,9 @@ import com.katcdavi.vaccimate.modules.Country;
 import com.katcdavi.vaccimate.modules.CountryDataModule;
 import com.katcdavi.vaccimate.modules.CryptoModule;
 import com.katcdavi.vaccimate.adapters.EventsAdapter;
+import com.katcdavi.vaccimate.modules.DataStore;
 import com.katcdavi.vaccimate.modules.Gender;
-import com.katcdavi.vaccimate.modules.UserDataModule;
+import com.katcdavi.vaccimate.modules.UserStore;
 import com.katcdavi.vaccimate.modules.vaccinationProgram.VaccinationProgram;
 import com.katcdavi.vaccimate.modules.vaccinationProgram.VaccinationProgramLoader;
 import com.katcdavi.vaccimate.userdb.User;
@@ -21,13 +22,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.DisplayMetrics;
+import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         return MainActivity.appContext;
     }
 
-    private UserDataModule userData;
+    private UserStore userStore;
     private VaccinationProgram program;
 
     @Override
@@ -50,34 +50,63 @@ public class MainActivity extends AppCompatActivity {
         Toolbar tb = (Toolbar) findViewById(R.id.main_topToolbar);
         tb.setTitle(getResources().getString(R.string.app_name) + " - " + getResources().getString(R.string.home));
 
+        this.userStore = DataStore.getInstance().getUserStore();
+        int i = 1; // dummy change to force reinstall
         try {
-            if (!isRegistered()) {
+            // no user has been yet registered, go to registration
+            if (this.processRegistration() || this.userStore.isLoggedIn() || this.processLogIn()) {
+                startApp();
+            } else if (!this.userStore.isAvailable()) {
                 goToUserRegistration();
-            } else if (!isLoggedIn()) {
-                goToUserAuth();
             } else {
-                showUserData();
-                loadVaccinationProgram();
+                goToUserAuth();
             }
         } catch (Exception e) {
             e.printStackTrace();
-            int dummy = 1;
         }
+    }
+
+    public void btnNavNewRecordOnClick(View v) {
+        Intent myIntent = new Intent(getBaseContext(), NewRecordActivity.class);
+        startActivity(myIntent);
     }
 
     private void goToUserRegistration() {
         Intent myIntent = new Intent(getBaseContext(), RegisterActivity.class);
         startActivity(myIntent);
-        finish();
     }
 
     private void goToUserAuth() {
         Intent myIntent = new Intent(getBaseContext(), LoginActivity.class);
         startActivity(myIntent);
-        finish();
     }
 
-    private boolean tryRegister() {
+    private void startApp() {
+        showUserData();
+        loadVaccinationProgram();
+    }
+
+    private boolean processLogIn() {
+        try {
+            if (this.userStore == null) {
+                return false;
+            }
+
+            String pin = null;
+            if (getIntent() != null) {
+                pin = getIntent().getStringExtra("PIN");
+            }
+            if (pin == null || pin.isEmpty()) {
+                return false;
+            }
+
+            return this.userStore.logIn(pin);
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    private boolean processRegistration() {
         try {
             String nationalId = null;
             String username = null;
@@ -104,47 +133,20 @@ public class MainActivity extends AppCompatActivity {
             Gender parsedGender = Gender.fromString(gender);
             Country country = CountryDataModule.getInstance().getCountryById(countryId);
 
-            this.userData = new UserDataModule(nationalId, username, date, secret, parsedGender, country);
-            this.userData.logIn();
-            insertNewUser();
-            return true;
+            User user = new User();
+            user.setNationalId(nationalId);
+            user.setUsername(username);
+            user.setBirthDate(date);
+            user.setSecret(secret);
+            user.setCountry(country);
+            user.setGender(parsedGender);
+
+            UserRepository ur = UserRepository.getInstance();
+            ur.insertUser(user);
+
+            this.userStore.setUser(user);
+            return this.userStore.logIn(pin);
         } catch (Exception e) {
-            this.userData = null;
-            return false;
-        }
-    }
-
-    private boolean isRegistered() {
-        try {
-            if (tryRegister()) {
-                return true;
-            }
-
-            UserRepository ur = new UserRepository(getApplicationContext());
-            List<User> users = ur.getUsers();
-
-            if (users.size() > 0) {
-                User user = users.get(0);
-                Country country = CountryDataModule.getInstance().getCountryById(user.getCountryId());
-                this.userData = new UserDataModule(user.getNationalId(), user.getUsername(), user.getBirthDate(), user.getSecret(), user.getGender(), country);
-                return true;
-            }
-
-            return false;
-        } catch (Exception e) {
-            this.userData = null;
-            return false;
-        }
-    }
-
-    private boolean isLoggedIn() {
-        try {
-            if (tryLogIn()) {
-                return true;
-            }
-            return this.userData.isLoggedIn();
-        } catch (Exception e) {
-            this.userData = null;
             return false;
         }
     }
@@ -153,53 +155,19 @@ public class MainActivity extends AppCompatActivity {
         TextView tv = null;
 
         tv = (TextView) findViewById(R.id.main_userInfo_rowNationalId_colVal);
-        tv.setText(this.userData.getNationalId());
+        tv.setText(this.userStore.getNationalId());
 
         tv = (TextView) findViewById(R.id.main_userInfo_rowUsername_colVal);
-        tv.setText(this.userData.getUsername());
+        tv.setText(this.userStore.getUsername());
 
         tv = (TextView) findViewById(R.id.main_userInfo_rowBdate_colVal);
-        tv.setText(this.userData.getBdateStr());
+        tv.setText(this.userStore.getBdateStr());
 
         tv = (TextView) findViewById(R.id.main_userInfo_rowCountry_colVal);
-        tv.setText(this.userData.getCountry().getName());
+        tv.setText(this.userStore.getCountry().getName());
 
         tv = (TextView) findViewById(R.id.main_userInfo_rowGender_colVal);
-        tv.setText(this.userData.getGender().toString());
-    }
-
-    private boolean tryLogIn() {
-        try {
-            String pin = null;
-
-            if (getIntent() != null) {
-                pin = getIntent().getStringExtra("PIN");
-            }
-
-            if (pin == null || pin.isEmpty()) {
-                return false;
-            }
-
-            // verify pin
-            if (this.userData.getSecret().equals(CryptoModule.pinToSecret(this.userData, pin))) {
-                this.userData.logIn();
-                return true;
-            }
-
-            return false;
-        } catch (Exception e) {
-            this.userData = null;
-            return false;
-        }
-    }
-
-    private void insertNewUser() {
-        try {
-            UserRepository ur = new UserRepository(getApplicationContext());
-            ur.insertUser(this.userData.getNationalId(), this.userData.getUsername(), this.userData.getBdate(), this.userData.getSecret());
-        } catch (Exception e) {
-            System.out.println("Interrupt exception");
-        }
+        tv.setText(this.userStore.getGender().toString());
     }
 
     private void loadVaccinationProgram() {

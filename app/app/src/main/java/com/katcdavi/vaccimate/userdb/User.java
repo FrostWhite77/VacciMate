@@ -4,6 +4,7 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
+import com.katcdavi.vaccimate.modules.Country;
 import com.katcdavi.vaccimate.modules.Gender;
 import com.katcdavi.vaccimate.vaccinedb.GenderConverter;
 
@@ -11,7 +12,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-@TypeConverters({DateConverter.class, GenderConverter.class})
+@TypeConverters({DateConverter.class, GenderConverter.class, CountryConverter.class})
 public class User implements Serializable
 {
     @PrimaryKey(autoGenerate = true)
@@ -21,7 +22,7 @@ public class User implements Serializable
     private Date birthDate;
     private String secret;
     private Gender gender;
-    private String countryId;
+    private Country country;
 
     public int getId() {
         return this.id;
@@ -71,11 +72,11 @@ public class User implements Serializable
         this.gender = gender;
     }
 
-    public String getCountryId() {
-        return this.countryId;
+    public Country getCountry() {
+        return this.country;
     }
 
-    public void setCountryId(String countryId) {
-        this.countryId = countryId;
+    public void setCountry(Country country) {
+        this.country = country;
     }
 }

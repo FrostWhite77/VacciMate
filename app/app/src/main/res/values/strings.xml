@@ -10,6 +10,7 @@
     <string name="nationalId">National ID</string>
     <string name="username">Username</string>
     <string name="bdate">Birth date</string>
+    <string name="date">Date</string>
 
     <string name="register">Register</string>
     <string name="login">Login</string>
@@ -27,4 +28,10 @@
     <string name="country">Country</string>
     <string name="gender">Gender</string>
     <string name="upcomingEvents">Upcoming events</string>
+    <string name="newRecord">New Record</string>
+    <string name="programEventId">Program Event ID</string>
+    <string name="category">Category</string>
+    <string name="substance">Substance</string>
+    <string name="note">Note</string>
+    <string name="addnewrecord">Add New Record</string>
 </resources>

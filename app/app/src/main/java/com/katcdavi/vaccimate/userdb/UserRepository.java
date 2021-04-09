@@ -5,27 +5,50 @@ import android.os.AsyncTask;
 
 import androidx.room.Room;
 
+import com.katcdavi.vaccimate.MainActivity;
+import com.katcdavi.vaccimate.modules.Country;
+import com.katcdavi.vaccimate.modules.Gender;
+
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class UserRepository {
+    private static UserRepository instance;
+    public static UserRepository getInstance() {
+        if (UserRepository.instance == null) {
+            UserRepository.instance = new UserRepository();
+        }
 
-    private String DB_NAME = "user_db";
-
-    private UserDatabase userDatabase;
-
-    public UserRepository(Context context) {
-        userDatabase = Room.databaseBuilder(context, UserDatabase.class, DB_NAME).allowMainThreadQueries().fallbackToDestructiveMigration().build();
+        return UserRepository.instance;
     }
 
-    public void insertUser(String nationalId, String username, Date birthDate, String secret) throws ExecutionException, InterruptedException {
+    private String DB_NAME = "user_db";
+    private UserDatabase userDatabase;
+
+    private UserRepository() {
+        userDatabase = Room.databaseBuilder(MainActivity.getContext(), UserDatabase.class, DB_NAME).allowMainThreadQueries().fallbackToDestructiveMigration().build();
+    }
+
+    public void insertUser(String nationalId, String username, Date birthDate, String secret, Country country, Gender gender) throws ExecutionException, InterruptedException {
         User user = new User();
         user.setNationalId(nationalId);
         user.setUsername(username);
         user.setBirthDate(birthDate);
         user.setSecret(secret);
+        user.setCountry(country);
+        user.setGender(gender);
 
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... voids) {
+                userDatabase.userAccess().insertUser(user);
+                return null;
+            }
+        }.execute();
+    }
+
+    public void insertUser(User user) {
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... voids) {
