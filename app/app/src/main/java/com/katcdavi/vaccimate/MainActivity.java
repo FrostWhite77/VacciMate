@@ -51,7 +51,6 @@ public class MainActivity extends AppCompatActivity {
         tb.setTitle(getResources().getString(R.string.app_name) + " - " + getResources().getString(R.string.home));
 
         this.userStore = DataStore.getInstance().getUserStore();
-        int i = 1; // dummy change to force reinstall
         try {
             // no user has been yet registered, go to registration
             if (this.processRegistration() || this.userStore.isLoggedIn() || this.processLogIn()) {

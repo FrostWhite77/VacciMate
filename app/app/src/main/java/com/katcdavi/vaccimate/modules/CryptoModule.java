@@ -48,8 +48,4 @@ public class CryptoModule
         String secret = CryptoModule.hash(pin, salt);
         return secret;
     }
-
-    public static String pinToSecret(UserDataModule userData, String pin) {
-        return CryptoModule.pinToSecret(userData.getNationalId(), userData.getUsername(), userData.getBdate(), pin);
-    }
 }
