@@ -40,4 +40,8 @@ public class VaccinationProgram {
     public List<VaccinationEvent> getEvents() {
         return new ArrayList<>(this.events.values());
     }
+
+    public List<DiseaseCategory> getCategories() {
+        return new ArrayList<>(this.categories.values());
+    }
 }

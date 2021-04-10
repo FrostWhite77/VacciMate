@@ -36,4 +36,9 @@ public class VaccinationEvent {
     public String getNote() {
         return this.note;
     }
+
+    @Override
+    public String toString() {
+        return this.note;
+    }
 }

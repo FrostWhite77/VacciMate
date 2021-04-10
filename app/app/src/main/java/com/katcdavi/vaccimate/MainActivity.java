@@ -83,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
     private void startApp() {
         showUserData();
         loadVaccinationProgram();
+        DataStore.getInstance().setProgram(this.program);
     }
 
     private boolean processLogIn() {
