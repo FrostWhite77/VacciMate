@@ -9,11 +9,17 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.katcdavi.vaccimate.modules.DataStore;
 import com.katcdavi.vaccimate.modules.vaccinationProgram.DiseaseCategory;
 import com.katcdavi.vaccimate.modules.vaccinationProgram.VaccinationEvent;
+import com.katcdavi.vaccimate.vaccinedb.Event;
+import com.katcdavi.vaccimate.vaccinedb.VaccineRepository;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class NewRecordActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
@@ -48,8 +54,29 @@ public class NewRecordActivity extends AppCompatActivity implements AdapterView.
     }
 
     public void btnNewRecordOnClick(View v) {
-        Intent myIntent = new Intent(getBaseContext(), MainActivity.class);
-        startActivity(myIntent);
+        try {
+            Intent myIntent = new Intent(getBaseContext(), MainActivity.class);
+
+            TextView tv_date = (TextView) findViewById(R.id.newrec_in_date);
+            String dateStr = tv_date.getText().toString();
+
+            TextView tv_substance = (TextView) findViewById(R.id.newrec_in_substance);
+            String substance = tv_substance.getText().toString();
+
+            TextView tv_note = (TextView) findViewById(R.id.newrec_in_note);
+            String note = tv_note.getText().toString();
+
+            // @TODO: validation checks
+
+            Date date = new SimpleDateFormat("dd.MM.yyyy").parse(dateStr);
+
+            VaccineRepository vr = VaccineRepository.getInstance();
+            vr.insertEvent(this.selectedEvent.getId(), true, this.selectedCategory.getId(), date, substance, note);
+
+            startActivity(myIntent);
+        } catch (Exception e) {
+            Toast.makeText(getApplicationContext(), "Error occurred", Toast.LENGTH_LONG);
+        }
     }
 
     @Override

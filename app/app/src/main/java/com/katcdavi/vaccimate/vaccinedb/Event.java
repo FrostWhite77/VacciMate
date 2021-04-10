@@ -14,6 +14,8 @@ import java.util.Date;
 public class Event implements Serializable {
     @PrimaryKey(autoGenerate = true)
     private int id;
+    private int associatedProgramId;
+    private boolean isAssociated;
     private int categoryId;
     private Date date;
     private String substance;
@@ -25,6 +27,22 @@ public class Event implements Serializable {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getAssociatedProgramId() {
+        return this.associatedProgramId;
+    }
+
+    public void setAssociatedProgramId(int associatedProgramId) {
+        this.associatedProgramId = associatedProgramId;
+    }
+
+    public boolean getIsAssociated() {
+        return this.isAssociated;
+    }
+
+    public void setIsAssociated(boolean isAssociated) {
+        this.isAssociated = isAssociated;
     }
 
     public int getCategoryId() {

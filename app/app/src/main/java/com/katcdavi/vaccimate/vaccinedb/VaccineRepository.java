@@ -6,20 +6,34 @@ import android.os.AsyncTask;
 import androidx.room.Room;
 
 
+import com.katcdavi.vaccimate.MainActivity;
+
 import java.util.Date;
 import java.util.List;
 
 public class VaccineRepository {
+    private static VaccineRepository instance;
+
+    public static VaccineRepository getInstance() {
+        if (VaccineRepository.instance == null) {
+            VaccineRepository.instance = new VaccineRepository();
+        }
+        return VaccineRepository.instance;
+    }
+
+
     private String DB_NAME = "vaccine_db";
 
     private VaccineDatabase vaccineDatabase;
 
-    public VaccineRepository(Context context) {
-        vaccineDatabase = Room.databaseBuilder(context, VaccineDatabase.class, DB_NAME).allowMainThreadQueries().fallbackToDestructiveMigration().build();
+    private VaccineRepository() {
+        vaccineDatabase = Room.databaseBuilder(MainActivity.getContext(), VaccineDatabase.class, DB_NAME).allowMainThreadQueries().fallbackToDestructiveMigration().build();
     }
 
-    public void insertEvent(int categoryId, Date date, String substance, String note) {
+    public void insertEvent(int associatedProgramId, boolean isAssociated, int categoryId, Date date, String substance, String note) {
         Event event = new Event();
+        event.setAssociatedProgramId(associatedProgramId);
+        event.setIsAssociated(isAssociated);
         event.setCategoryId(categoryId);
         event.setDate(date);
         event.setSubstance(substance);

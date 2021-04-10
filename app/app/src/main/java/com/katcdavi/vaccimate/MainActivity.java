@@ -15,6 +15,7 @@ import com.katcdavi.vaccimate.modules.vaccinationProgram.VaccinationProgram;
 import com.katcdavi.vaccimate.modules.vaccinationProgram.VaccinationProgramLoader;
 import com.katcdavi.vaccimate.userdb.User;
 import com.katcdavi.vaccimate.userdb.UserRepository;
+import com.katcdavi.vaccimate.vaccinedb.VaccineRepository;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -82,8 +83,27 @@ public class MainActivity extends AppCompatActivity {
 
     private void startApp() {
         showUserData();
-        loadVaccinationProgram();
-        DataStore.getInstance().setProgram(this.program);
+
+        if (DataStore.getInstance().getProgram() == null) {
+            loadVaccinationProgram();
+            DataStore.getInstance().setProgram(this.program);
+        } else {
+            this.program = DataStore.getInstance().getProgram();
+        }
+
+        // region: DEBUG - begin
+        TextView tv = (TextView) findViewById(R.id.main_errorLog);
+        String data = "===DEBUG===\nLoaded Categories: " + this.program.getCategoriesSize() + " ; Loaded Events: " + this.program.getEventsSize();
+        DisplayMetrics displayMetrics = getApplicationContext().getResources().getDisplayMetrics();
+        float dpHeight = displayMetrics.heightPixels / displayMetrics.density;
+        float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
+        data += "\nmax width: " + dpWidth + "dp ; max height: " + dpHeight + "dp\n";
+        VaccineRepository vr = VaccineRepository.getInstance();
+        int records = vr.getEvents().size();
+        data += "size of stored user events: " + records + "\n";
+        data += "===DEBUG===";
+        tv.setText(data);
+        // region: DEBUG - end
     }
 
     private boolean processLogIn() {
@@ -174,15 +194,6 @@ public class MainActivity extends AppCompatActivity {
         TextView tv = (TextView) findViewById(R.id.main_errorLog);
         try {
             this.program = VaccinationProgramLoader.loadFromFile(getAssets().open("structure_test.json"));
-
-            // region: DEBUG - begin
-            String data = "===DEBUG===\nLoaded Categories: " + this.program.getCategoriesSize() + " ; Loaded Events: " + this.program.getEventsSize();
-            DisplayMetrics displayMetrics = getApplicationContext().getResources().getDisplayMetrics();
-            float dpHeight = displayMetrics.heightPixels / displayMetrics.density;
-            float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
-            data += "\nmax width: " + dpWidth + "dp ; max height: " + dpHeight + "dp\n===DEBUG===";
-            tv.setText(data);
-            // region: DEBUG - end
 
             RecyclerView eventsRView = (RecyclerView) findViewById(R.id.main_upcomingEvents);
             eventsRView.setAdapter(new EventsAdapter(this.program.getEvents()));
