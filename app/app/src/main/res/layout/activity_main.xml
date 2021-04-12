@@ -180,6 +180,30 @@
         app:layout_constraintTop_toBottomOf="@+id/linearLayout6"
         app:layout_constraintVertical_bias="0.02">
 
+        <TextView
+            android:id="@+id/main_eventsUr_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/myVaccinations" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/main_userEvents"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout8"
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout7"
+        app:layout_constraintVertical_bias="0.02">
+
         <Button
             android:id="@+id/main_button_addNewRecord"
             android:layout_width="match_parent"
@@ -192,10 +216,10 @@
     <TextView
         android:id="@+id/main_errorLog"
         android:layout_width="320dp"
-        android:layout_height="76dp"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout7"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout8"
         app:layout_constraintVertical_bias="0.02" />
 </androidx.constraintlayout.widget.ConstraintLayout>

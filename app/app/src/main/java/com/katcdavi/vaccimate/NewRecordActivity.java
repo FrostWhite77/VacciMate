@@ -13,6 +13,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.katcdavi.vaccimate.modules.DataStore;
+import com.katcdavi.vaccimate.modules.Gender;
+import com.katcdavi.vaccimate.modules.UserStore;
 import com.katcdavi.vaccimate.modules.vaccinationProgram.DiseaseCategory;
 import com.katcdavi.vaccimate.modules.vaccinationProgram.VaccinationEvent;
 import com.katcdavi.vaccimate.vaccinedb.Event;
@@ -35,10 +37,13 @@ public class NewRecordActivity extends AppCompatActivity implements AdapterView.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_record);
 
+        checkLogin();
+
         Toolbar tb = (Toolbar) findViewById(R.id.newrec_topToolbar);
         tb.setTitle(getResources().getString(R.string.app_name) + " - " + getResources().getString(R.string.newRecord));
 
         this.events = DataStore.getInstance().getProgram().getEvents();
+        this.events.add(0, new VaccinationEvent(-1, 0, Gender.all(), null, "-"));
         this.selectedEvent = this.events.get(0);
 
         Spinner eventIdSpinner = (Spinner) findViewById(R.id.newrec_in_programEventId);
@@ -51,6 +56,14 @@ public class NewRecordActivity extends AppCompatActivity implements AdapterView.
         Spinner categorySpinner = (Spinner) findViewById(R.id.newrec_in_category);
         categorySpinner.setOnItemSelectedListener(this);
         categorySpinner.setAdapter(new ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, this.categories));
+    }
+
+    private void checkLogin() {
+        UserStore us = DataStore.getInstance().getUserStore();
+        if (!us.isLoggedIn()) {
+            Intent myIntent = new Intent(getBaseContext(), MainActivity.class);
+            startActivity(myIntent);
+        }
     }
 
     public void btnNewRecordOnClick(View v) {
@@ -71,7 +84,11 @@ public class NewRecordActivity extends AppCompatActivity implements AdapterView.
             Date date = new SimpleDateFormat("dd.MM.yyyy").parse(dateStr);
 
             VaccineRepository vr = VaccineRepository.getInstance();
-            vr.insertEvent(this.selectedEvent.getId(), true, this.selectedCategory.getId(), date, substance, note);
+            if (this.selectedEvent.getId() == -1) {
+                vr.insertEvent(0, false, this.selectedCategory.getId(), date, substance, note);
+            } else {
+                vr.insertEvent(this.selectedEvent.getId(), true, this.selectedCategory.getId(), date, substance, note);
+            }
 
             startActivity(myIntent);
         } catch (Exception e) {

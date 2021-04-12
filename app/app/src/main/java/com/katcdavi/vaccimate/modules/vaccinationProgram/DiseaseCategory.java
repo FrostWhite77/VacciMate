@@ -16,4 +16,9 @@ public class DiseaseCategory {
     public String getName() {
         return this.groupName;
     }
+
+    @Override
+    public String toString() {
+        return this.getName();
+    }
 }

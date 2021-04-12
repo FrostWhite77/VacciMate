@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.katcdavi.vaccimate.adapters.VaccinationRecordsAdapter;
 import com.katcdavi.vaccimate.modules.Country;
 import com.katcdavi.vaccimate.modules.CountryDataModule;
 import com.katcdavi.vaccimate.modules.CryptoModule;
@@ -28,7 +29,9 @@ import android.widget.TextView;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -91,6 +94,16 @@ public class MainActivity extends AppCompatActivity {
             this.program = DataStore.getInstance().getProgram();
         }
 
+        RecyclerView eventsRView = (RecyclerView) findViewById(R.id.main_upcomingEvents);
+        eventsRView.setAdapter(new EventsAdapter(this.program.getEvents()));
+        eventsRView.setLayoutManager(new LinearLayoutManager(this));
+
+        VaccineRepository vr = VaccineRepository.getInstance();
+
+        RecyclerView myVaccinationsRView = (RecyclerView) findViewById(R.id.main_userEvents);
+        myVaccinationsRView.setAdapter(new VaccinationRecordsAdapter(vr.getEvents()));
+        myVaccinationsRView.setLayoutManager(new LinearLayoutManager(this));
+
         // region: DEBUG - begin
         TextView tv = (TextView) findViewById(R.id.main_errorLog);
         String data = "===DEBUG===\nLoaded Categories: " + this.program.getCategoriesSize() + " ; Loaded Events: " + this.program.getEventsSize();
@@ -98,7 +111,6 @@ public class MainActivity extends AppCompatActivity {
         float dpHeight = displayMetrics.heightPixels / displayMetrics.density;
         float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
         data += "\nmax width: " + dpWidth + "dp ; max height: " + dpHeight + "dp\n";
-        VaccineRepository vr = VaccineRepository.getInstance();
         int records = vr.getEvents().size();
         data += "size of stored user events: " + records + "\n";
         data += "===DEBUG===";
@@ -194,11 +206,6 @@ public class MainActivity extends AppCompatActivity {
         TextView tv = (TextView) findViewById(R.id.main_errorLog);
         try {
             this.program = VaccinationProgramLoader.loadFromFile(getAssets().open("structure_test.json"));
-
-            RecyclerView eventsRView = (RecyclerView) findViewById(R.id.main_upcomingEvents);
-            eventsRView.setAdapter(new EventsAdapter(this.program.getEvents()));
-            eventsRView.setLayoutManager(new LinearLayoutManager(this));
-
         } catch (IOException e) {
             e.printStackTrace();
             tv.setText("ERROR in loadVaccinationProgram()");

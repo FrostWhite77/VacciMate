@@ -45,6 +45,14 @@ public class UserStore {
         return false;
     }
 
+    public void logOut() {
+        if (!this.isLoggedIn()) {
+            return;
+        }
+
+        this.loggedIn = false;
+    }
+
     public boolean isLoggedIn() {
         return this.loggedIn;
     }

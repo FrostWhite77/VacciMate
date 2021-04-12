@@ -28,6 +28,7 @@
     <string name="country">Country</string>
     <string name="gender">Gender</string>
     <string name="upcomingEvents">Upcoming events</string>
+    <string name="myVaccinations">My Vaccinations</string>
     <string name="newRecord">New Record</string>
     <string name="programEventId">Program Event ID</string>
     <string name="category">Category</string>

@@ -14,7 +14,9 @@ import android.widget.Toast;
 
 import com.katcdavi.vaccimate.modules.Country;
 import com.katcdavi.vaccimate.modules.CountryDataModule;
+import com.katcdavi.vaccimate.modules.DataStore;
 import com.katcdavi.vaccimate.modules.Gender;
+import com.katcdavi.vaccimate.modules.UserStore;
 
 import java.util.ArrayList;
 import java.util.List;
