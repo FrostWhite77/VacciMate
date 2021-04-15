@@ -34,6 +34,20 @@
       "reccGender": "FEMALE",
       "category": "3",
       "note": "HPV"
+    },
+    {
+      "id": "4",
+      "reccAge": "20",
+      "reccGender": "ALL",
+      "category": "2",
+      "note": "R2"
+    },
+    {
+      "id": "5",
+      "reccAge": "40",
+      "reccGender": "ALL",
+      "category": "2",
+      "note": "R3"
     }
   ]
 }

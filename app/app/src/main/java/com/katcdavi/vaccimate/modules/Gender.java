@@ -19,6 +19,10 @@ public class Gender {
         return this.gender.label;
     }
 
+    public GenderEnum get() {
+        return this.gender;
+    }
+
     public static Gender all() { return new Gender(GenderEnum.ALL); }
 
     public static Gender male() {

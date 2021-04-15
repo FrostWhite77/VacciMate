@@ -35,7 +35,7 @@ public class VaccinationProgramLoader {
                 String note = jsonEvents.getJSONObject(i).getString("note");
 
                 Gender reccGender = Gender.fromString(reccGenderStr);
-                if (reccGender == Gender.all() || reccGender == gender) {
+                if (reccGender.get() == Gender.all().get() || reccGender.get() == gender.get()) {
                     program.addEvent(new VaccinationEvent(id, reccAge, reccGender, program.getCategoryById(categoryId), note));
                 }
             }
