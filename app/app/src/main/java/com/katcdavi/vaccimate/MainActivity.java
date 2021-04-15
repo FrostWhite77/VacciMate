@@ -2,6 +2,7 @@ package com.katcdavi.vaccimate;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 
 import com.katcdavi.vaccimate.adapters.VaccinationRecordsAdapter;
@@ -12,12 +13,15 @@ import com.katcdavi.vaccimate.adapters.EventsAdapter;
 import com.katcdavi.vaccimate.modules.DataStore;
 import com.katcdavi.vaccimate.modules.Gender;
 import com.katcdavi.vaccimate.modules.UserStore;
+import com.katcdavi.vaccimate.modules.vaccinationProgram.VaccinationEvent;
 import com.katcdavi.vaccimate.modules.vaccinationProgram.VaccinationProgram;
 import com.katcdavi.vaccimate.modules.vaccinationProgram.VaccinationProgramLoader;
 import com.katcdavi.vaccimate.userdb.User;
 import com.katcdavi.vaccimate.userdb.UserRepository;
+import com.katcdavi.vaccimate.vaccinedb.Event;
 import com.katcdavi.vaccimate.vaccinedb.VaccineRepository;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -26,10 +30,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -44,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
     private UserStore userStore;
     private VaccinationProgram program;
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,6 +91,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(myIntent);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     private void startApp() {
         showUserData();
 
@@ -94,28 +102,31 @@ public class MainActivity extends AppCompatActivity {
             this.program = DataStore.getInstance().getProgram();
         }
 
-        RecyclerView eventsRView = (RecyclerView) findViewById(R.id.main_upcomingEvents);
-        eventsRView.setAdapter(new EventsAdapter(this.program.getEvents()));
-        eventsRView.setLayoutManager(new LinearLayoutManager(this));
+        TextView tv = (TextView) findViewById(R.id.main_errorLog);
+        tv.setText("===DEBUG===\n");
 
         VaccineRepository vr = VaccineRepository.getInstance();
-
+        List<Event> userEvents = vr.getEvents();
         RecyclerView myVaccinationsRView = (RecyclerView) findViewById(R.id.main_userEvents);
-        myVaccinationsRView.setAdapter(new VaccinationRecordsAdapter(vr.getEvents()));
+        myVaccinationsRView.setAdapter(new VaccinationRecordsAdapter(this.sortByDate(userEvents)));
         myVaccinationsRView.setLayoutManager(new LinearLayoutManager(this));
 
+        RecyclerView eventsRView = (RecyclerView) findViewById(R.id.main_upcomingEvents);
+        eventsRView.setAdapter(new EventsAdapter(this.sortByAge(this.program.getUnassociatedEvents())));
+        eventsRView.setLayoutManager(new LinearLayoutManager(this));
+
         // region: DEBUG - begin
-        TextView tv = (TextView) findViewById(R.id.main_errorLog);
-        String data = "===DEBUG===\nLoaded Categories: " + this.program.getCategoriesSize() + " ; Loaded Events: " + this.program.getEventsSize();
+        String data = tv.getText().toString() + "Loaded Categories: " + this.program.getCategoriesSize() + " ; Loaded Events: " + this.program.getEventsSize();
         DisplayMetrics displayMetrics = getApplicationContext().getResources().getDisplayMetrics();
         float dpHeight = displayMetrics.heightPixels / displayMetrics.density;
         float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
         data += "\nmax width: " + dpWidth + "dp ; max height: " + dpHeight + "dp\n";
         int records = vr.getEvents().size();
         data += "size of stored user events: " + records + "\n";
-        data += "===DEBUG===";
         tv.setText(data);
         // region: DEBUG - end
+
+        tv.setText(tv.getText().toString() + "===DEBUG===\n");
     }
 
     private boolean processLogIn() {
@@ -205,10 +216,24 @@ public class MainActivity extends AppCompatActivity {
     private void loadVaccinationProgram() {
         TextView tv = (TextView) findViewById(R.id.main_errorLog);
         try {
-            this.program = VaccinationProgramLoader.loadFromFile(getAssets().open("structure_test.json"));
+            this.program = VaccinationProgramLoader.loadFromFile(getAssets().open("structure_test.json"), this.userStore.getGender());
         } catch (IOException e) {
             e.printStackTrace();
             tv.setText("ERROR in loadVaccinationProgram()");
         }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private List<VaccinationEvent> sortByAge(List<VaccinationEvent> programEvents)
+    {
+        programEvents.sort(Comparator.comparing(VaccinationEvent::getRecommendedAge));
+        return programEvents;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private List<Event> sortByDate(List<Event> userEvents)
+    {
+        userEvents.sort(Comparator.comparing(Event::getDate));
+        return userEvents;
     }
 }

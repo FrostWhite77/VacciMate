@@ -1,5 +1,8 @@
 package com.katcdavi.vaccimate.modules.vaccinationProgram;
 
+import com.katcdavi.vaccimate.vaccinedb.Event;
+import com.katcdavi.vaccimate.vaccinedb.VaccineRepository;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -39,6 +42,24 @@ public class VaccinationProgram {
 
     public List<VaccinationEvent> getEvents() {
         return new ArrayList<>(this.events.values());
+    }
+
+    public List<VaccinationEvent> getUnassociatedEvents() {
+        List<VaccinationEvent> events = this.getEvents();
+        VaccineRepository vr = VaccineRepository.getInstance();
+
+        for (Event e : vr.getEvents()) {
+            if (e.getIsAssociated()) {
+                for (VaccinationEvent ve : events) {
+                    if (ve.getId() == e.getAssociatedProgramId()) {
+                        events.remove(ve);
+                        break;
+                    }
+                }
+            }
+        }
+
+        return events;
     }
 
     public List<DiseaseCategory> getCategories() {

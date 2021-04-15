@@ -39,6 +39,9 @@ public class VaccinationEvent {
 
     @Override
     public String toString() {
-        return this.note;
+        if (this.id == -1) {
+            return "-";
+        }
+        return "[" + this.category.getName() + "] " + this.note;
     }
 }

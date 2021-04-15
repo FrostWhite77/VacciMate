@@ -42,7 +42,7 @@ public class NewRecordActivity extends AppCompatActivity implements AdapterView.
         Toolbar tb = (Toolbar) findViewById(R.id.newrec_topToolbar);
         tb.setTitle(getResources().getString(R.string.app_name) + " - " + getResources().getString(R.string.newRecord));
 
-        this.events = DataStore.getInstance().getProgram().getEvents();
+        this.events = DataStore.getInstance().getProgram().getUnassociatedEvents();
         this.events.add(0, new VaccinationEvent(-1, 0, Gender.all(), null, "-"));
         this.selectedEvent = this.events.get(0);
 
@@ -87,7 +87,7 @@ public class NewRecordActivity extends AppCompatActivity implements AdapterView.
             if (this.selectedEvent.getId() == -1) {
                 vr.insertEvent(0, false, this.selectedCategory.getId(), date, substance, note);
             } else {
-                vr.insertEvent(this.selectedEvent.getId(), true, this.selectedCategory.getId(), date, substance, note);
+                vr.insertEvent(this.selectedEvent.getId(), true, this.selectedEvent.getCategory().getId(), date, substance, note);
             }
 
             startActivity(myIntent);

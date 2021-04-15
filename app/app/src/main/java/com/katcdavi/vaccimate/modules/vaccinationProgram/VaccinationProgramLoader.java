@@ -11,7 +11,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 public class VaccinationProgramLoader {
-    public static VaccinationProgram loadFromFile(InputStream stream) {
+    public static VaccinationProgram loadFromFile(InputStream stream, Gender gender) {
         VaccinationProgram program = new VaccinationProgram();
         String json = VaccinationProgramLoader.readFileToString(stream);
 
@@ -30,11 +30,14 @@ public class VaccinationProgramLoader {
             for (int i = 0; i < jsonEvents.length(); ++i) {
                 int id = Integer.parseInt(jsonEvents.getJSONObject(i).getString("id"));
                 int reccAge = Integer.parseInt(jsonEvents.getJSONObject(i).getString("reccAge"));
-                String reccGender = jsonEvents.getJSONObject(i).getString("reccGender");
+                String reccGenderStr = jsonEvents.getJSONObject(i).getString("reccGender");
                 int categoryId = Integer.parseInt(jsonEvents.getJSONObject(i).getString("category"));
                 String note = jsonEvents.getJSONObject(i).getString("note");
 
-                program.addEvent(new VaccinationEvent(id, reccAge, Gender.fromString(reccGender), program.getCategoryById(categoryId), note));
+                Gender reccGender = Gender.fromString(reccGenderStr);
+                if (reccGender == Gender.all() || reccGender == gender) {
+                    program.addEvent(new VaccinationEvent(id, reccAge, reccGender, program.getCategoryById(categoryId), note));
+                }
             }
 
             return program;
