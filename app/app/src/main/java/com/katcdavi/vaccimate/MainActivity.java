@@ -74,6 +74,8 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        ((TextView)(findViewById(R.id.main_errorLog))).setVisibility(View.INVISIBLE);
     }
 
     public void btnNavNewRecordOnClick(View v) {
